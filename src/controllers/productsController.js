@@ -86,6 +86,12 @@ const controller = {
 	// Delete - Delete one product from DB
 	destroy : (req, res) => {
 		// Do the magic
+		//obtener el id del elemnto 
+		const productId = req.params.productId
+		const productFilter = products.filter((product)=>{
+			return product.id != productId
+		})
+		res.send(productFilter)
 	}
 };
 

@@ -28,14 +28,17 @@
 						
 							<p class="product-detail-price small">
 								<span>$<%= product.price  %> </span>
-								/
-								<b><%=product.discount  %>  % OFF</b>
+								<% if (product.dicount>0) { %>
+									<b><%=product.discount  %>  % OFF</b> 
+								<% } %>
 							</p>
 							<p class="product-detail-price">
 								$<%= product.price * (1 - product.discount / 100) %>
 							</p>
 							<p class="product-detail-price">
-								$<%= product.price %> 
+								<% if (product.dicount>0) { %>
+									$<%= product.price %>
+								<% } %> 
 							</p>
 
 						<ul class="actions-list">
@@ -53,7 +56,7 @@
 						<hr>
 
 						<a href="/products/edit/<%= product.id %> " class="action-button edit">EDITAR PRODUCTO</a>
-						<form action="/products/delete/¿¿" method="POST" style="display: inline-flex">
+						<form action="/products/delete/<%= product.id %>/?_method=DELETE" method="POST" style="display: inline-flex">
 							<button type="submit" class="action-button delete">ELIMINAR</button>
 						</form>
 					</article>
