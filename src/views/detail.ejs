@@ -32,10 +32,10 @@
 								<b><%=product.discount  %>  % OFF</b>
 							</p>
 							<p class="product-detail-price">
-								$FINAL PRICE
+								$<%= product.price * (1 - product.discount / 100) %>
 							</p>
 							<p class="product-detail-price">
-								$PRICE
+								$<%= product.price %> 
 							</p>
 
 						<ul class="actions-list">
@@ -52,7 +52,7 @@
 						<a href="#" class="buy-now-button">COMPRAR AHORA</a>
 						<hr>
 
-						<a href="/products/edit/¿?" class="action-button edit">EDITAR PRODUCTO</a>
+						<a href="/products/edit/<%= product.id %> " class="action-button edit">EDITAR PRODUCTO</a>
 						<form action="/products/delete/¿¿" method="POST" style="display: inline-flex">
 							<button type="submit" class="action-button delete">ELIMINAR</button>
 						</form>

@@ -16,17 +16,15 @@ const controller = {
 
 	// Detail - Detail from one product
 	detail: (req, res) => {
-		const productId= req.params.id;
+		const productId= req.params.productId;
 		const productTofind = products.find((product)=>{
-			product.id == productId
+			return product.id == productId
 		})
-		if(!productTofind){
-			return res.send('no exista el producto')
-		}
-		const viewData = {
-			productTofind
-		}
-			return res.render('detail', viewData)
+	if (productTofind == undefined){
+		return res.send('no existe el producto')
+	}
+	return res.render('detail',{
+		product: productTofind	})
 		},
 
 	// Create - Form to create
@@ -46,21 +44,42 @@ const controller = {
 
 	// Update - Form to edit
 	edit: (req, res) => {
-		const productId= req.params.id;
-		const productTofind = products.find((product)=>{
-			product.id ==productId
-		})
-		if(!productTofind){
-			return res.send('no exista el producto')
+		//OBTENER EL PRODUCTO
+		const productId= req.params.productId;
+		const productTofind = products.find((product)=> {return product.id == productId })
+		//BUSCAR PRODUCTO
+		if ( productTofind == undefined){
+			return res.send('no existe el producto')
 		}
-		return res .render ('product-edit-form',{
-			product: productTofind
+		return res.render ('product-edit-form',{
+			productTofind: productTofind
 		})
 	},
 		// Update - Method to update
 	update: (req, res) => {
-		//obtener el indice del producto a actualiczar
-		//productos[i]=req.body;
+		const dataToUpdate = req.body;
+    dataToUpdate.price = Number(dataToUpdate.price);
+    dataToUpdate.discount = Number(dataToUpdate.discount);
+
+    // Obtener el indice del producto en el array productos
+    // products[0] = nuevo producto 
+    const productIndex = products.findIndex(
+      (product) => {
+        return product.id == req.params.id
+      }
+    )
+    if (productIndex == -1) {
+      return res.send('No existe el producto')
+    }
+    // Actualizo array en base al indice
+    // Combinar producto existente con nuevos datos a actualizar
+    products[productIndex] = {
+      ...products[productIndex],
+      ...dataToUpdate
+    }
+    fs.writeFileSync(productsFilePath, JSON.stringify(products, null, 2));
+
+    return res.send(products[productIndex])
 
 	},
 
